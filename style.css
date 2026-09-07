@@ -1,0 +1,338 @@
+/* =======================================
+   우리들의 책숲 v1.0
+   기본 설정
+======================================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html,body{
+
+    width:100%;
+    height:100%;
+    overflow:hidden;
+
+    font-family:"Pretendard","SUIT",sans-serif;
+    background:#eef6f2;
+
+}
+
+/* =======================================
+   페이지
+======================================= */
+
+.page{
+
+    position:absolute;
+
+    inset:0;
+
+    opacity:0;
+
+    transition:opacity .8s ease;
+
+    pointer-events:none;
+
+}
+
+.page.active{
+
+    opacity:1;
+
+    pointer-events:auto;
+
+}
+
+/* =======================================
+   배경
+======================================= */
+
+.background{
+
+    position:absolute;
+
+    inset:0;
+
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+
+    user-select:none;
+
+}
+
+/* =======================================
+   참여인원
+======================================= */
+
+#countBox{
+
+    position:absolute;
+
+    left:49%;
+    top:86.5%;
+
+    transform:translate(-50%,-50%);
+
+    z-index:20;
+
+}
+
+#count{
+
+    font-size:82px;
+
+    font-weight:800;
+
+    color:#f58a2c;
+
+    letter-spacing:-2px;
+
+}
+
+/* =======================================
+   나비
+======================================= */
+
+#butterfly{
+
+    position:absolute;
+
+    width:92px;
+
+    left:-160px;
+
+    top:17%;
+
+    z-index:30;
+
+    pointer-events:none;
+
+}
+
+/* =======================================
+   잠자리
+======================================= */
+
+#dragonfly{
+
+    position:absolute;
+
+    width:105px;
+
+    right:-160px;
+
+    top:62%;
+
+    z-index:30;
+
+    pointer-events:none;
+
+}
+
+/* =======================================
+   Page2
+======================================= */
+
+#leafArea{
+
+    position:absolute;
+
+    inset:0;
+
+    z-index:15;
+
+}
+
+/* =======================================
+   애니메이션
+======================================= */
+
+/* 페이지 전환 */
+
+.page{
+
+    transition:opacity 1.2s ease-in-out;
+
+}
+
+
+/* 나비 날갯짓 */
+
+@keyframes butterflyFlap{
+
+    0%{
+
+        transform:scale(1) rotate(-6deg);
+
+    }
+
+    50%{
+
+        transform:scale(.92) rotate(6deg);
+
+    }
+
+    100%{
+
+        transform:scale(1) rotate(-6deg);
+
+    }
+
+}
+
+#butterfly{
+
+    animation:butterflyFlap .35s infinite;
+
+}
+
+
+/* 잠자리 몸 흔들림 */
+
+@keyframes dragonHover{
+
+    0%{
+
+        transform:translateY(0px) rotate(-2deg);
+
+    }
+
+    50%{
+
+        transform:translateY(-2px) rotate(2deg);
+
+    }
+
+    100%{
+
+        transform:translateY(0px) rotate(-2deg);
+
+    }
+
+}
+
+#dragonfly{
+
+    animation:dragonHover .45s infinite;
+
+}
+
+
+/* 나뭇잎 등장 */
+
+@keyframes leafPop{
+
+    0%{
+
+        transform:scale(.45);
+
+        opacity:0;
+
+    }
+
+    70%{
+
+        transform:scale(1.08);
+
+        opacity:1;
+
+    }
+
+    100%{
+
+        transform:scale(1);
+
+        opacity:1;
+
+    }
+
+}
+
+/* =======================================
+   나뭇잎
+======================================= */
+
+.leaf{
+
+    position:absolute;
+
+    width:250px;
+
+    animation:leafPop .8s ease both;
+
+}
+
+.leaf img{
+
+    width:100%;
+
+    display:block;
+
+}
+
+.leafText{
+
+    position:absolute;
+
+    left:50%;
+    top:42%;
+
+    transform:translate(-50%,-50%);
+
+    width:70%;
+
+    text-align:center;
+
+    color:white;
+
+    font-size:18px;
+
+    font-weight:700;
+
+    line-height:1.45;
+
+    text-shadow:
+
+        0 2px 5px rgba(0,0,0,.45),
+
+        0 0 10px rgba(0,0,0,.2);
+
+    word-break:keep-all;
+
+}
+
+/* --------------------------
+   Page1 흔들리는 나뭇잎
+-------------------------- */
+
+#swingLeaf{
+
+    position:absolute;
+
+    width:80px;
+
+    left:9%;
+    top:29%;
+
+    transform-origin:50% 5%;
+
+    animation:swingLeaf 5s ease-in-out infinite;
+
+    z-index:30;
+
+}
+
+@keyframes swingLeaf{
+
+    0%{ transform:rotate(-3deg); }
+
+    50%{ transform:rotate(3deg); }
+
+    100%{ transform:rotate(-3deg); }
+
+}
