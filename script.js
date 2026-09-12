@@ -1,10 +1,38 @@
 // ---------------------
-// 참여 인원
+// Google Form 응답
 // ---------------------
 
-const people = 0;
+const GOOGLE_SCRIPT_URL =
+"https://script.google.com/macros/s/AKfycbzfv6nkUZWmnHUSLSOk7iJgBHKRMqeihVv5hhoz_f4/dev";
 
-document.getElementById("count").innerText = `${people} / 508`;
+let responses = [];
+
+async function loadResponses(){
+
+    try{
+
+        const response = await fetch(GOOGLE_SCRIPT_URL);
+
+        const data = await response.json();
+
+        responses = data.responses;
+
+        document.getElementById("count").innerText =
+            `${data.count} / 508`;
+
+    }catch(error){
+
+        console.log("응답을 불러오지 못했습니다.", error);
+
+    }
+
+}
+
+// 처음 한 번 불러오기
+loadResponses();
+
+// 30초마다 새 응답 확인
+setInterval(loadResponses,30000);
 
 
 // ---------------------
@@ -164,16 +192,6 @@ setTimeout(flyDragonfly,2000);
 
 const leafArea = document.getElementById("leafArea");
 
-const testMessages=[
-
-"샌드아트가\n재미있었어요.",
-"친구와 함께\n책을 읽었어요.",
-"작가님을\n만나서 좋았어요.",
-"도서관이\n즐거웠어요.",
-"다음에도\n참여하고 싶어요."
-
-];
-
 // 사용할 위치 (20개)
 
 const positions=[
@@ -198,10 +216,8 @@ const positions=[
 {x:12,y:64},
 {x:36,y:65},
 {x:60,y:64},
-{x:82,y:65},
 
 {x:25,y:72},
-{x:55,y:72}
 
 ];
 
@@ -217,7 +233,9 @@ function createForest(){
 
     const spots=shuffle(positions);
 
-    for(let i=0;i<20;i++){
+    if(responses.length === 0) return;
+
+    for(let i=0;i<spots.length;i++){
 
         const leaf=document.createElement("div");
 
@@ -253,15 +271,21 @@ function createForest(){
 
         leaf.innerHTML=`
 
-            <img src="images/leaf${type}.png">
+    <img src="images/leaf${type}.png">
 
-            <div class="leafText">
+    <div class="leafText">
 
-            ${testMessages[Math.floor(Math.random()*testMessages.length)].replace(/\n/g,"<br>")}
+        ${responses[i % responses.length].message.replace(/\n/g,"<br>")}
 
-            </div>
+        <div class="studentInfo">
+            ${responses[i % responses.length].grade}
+            ${responses[i % responses.length].className}
+            ${responses[i % responses.length].name}
+        </div>
 
-        `;
+    </div>
+
+`;
 
         leaf.style.animationDelay=(i*0.18)+"s";
         leaf.style.animation += ", leafSwing " + (5+Math.random()*3) + "s ease-in-out infinite";
