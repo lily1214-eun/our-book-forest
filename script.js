@@ -3,7 +3,7 @@
 // ---------------------
 
 const GOOGLE_SCRIPT_URL =
-"https://script.google.com/macros/s/AKfycby_VTVr97DQndMiBSB_HMbYKkPgHpj9EnovviTMf8exnAcQVkClW8CyvUrjQtIewRYo/exec;
+"https://script.google.com/macros/s/AKfycby_VTVr97DQndMiBSB_HMbYKkPgHpj9EnovviTMf8exnAcQVkClW8CyvUrjQtIewRYo/exec";
 
 let responses = [];
 
