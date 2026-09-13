@@ -3,28 +3,54 @@
 // ---------------------
 
 const GOOGLE_SCRIPT_URL =
-"https://script.google.com/macros/s/AKfycby_VTVr97DQndMiBSB_HMbYKkPgHpj9EnviTMf8exnAcQVkClW8CyvUrjQtIewRYo/exec";
+"https://script.google.com/macros/s/AKfycbwYE-K8785rhlbawTCmReGH0FPClBHrxEckiHotiSfmBw9OF-PtwcuxMqGKXBdtHQo9/exec";
 
 let responses = [];
 
-async function loadResponses(){
+function loadResponses(){
 
-    try{
+    return new Promise((resolve, reject) => {
 
-        const response = await fetch(GOOGLE_SCRIPT_URL);
+        const callbackName =
+            "bookForestCallback_" + Date.now();
 
-        const data = await response.json();
+        window[callbackName] = function(data){
 
-        responses = data.responses;
+            responses = data.responses;
 
-        document.getElementById("count").innerText =
-            `${data.count} / 508`;
+            document.getElementById("count").innerText =
+                `${data.count} / 508`;
 
-    }catch(error){
+            delete window[callbackName];
+            script.remove();
 
-        console.log("응답을 불러오지 못했습니다.", error);
+            resolve(data);
 
-    }
+        };
+
+        const script = document.createElement("script");
+
+        script.src =
+            GOOGLE_SCRIPT_URL +
+            "?callback=" + callbackName;
+
+        script.onerror = function(error){
+
+            delete window[callbackName];
+            script.remove();
+
+            console.log(
+                "응답을 불러오지 못했습니다.",
+                error
+            );
+
+            reject(error);
+
+        };
+
+        document.body.appendChild(script);
+
+    });
 
 }
 
