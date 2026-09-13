@@ -9,56 +9,43 @@ let responses = [];
 
 function loadResponses(){
 
-    return new Promise((resolve, reject) => {
+    const callbackName =
+        "bookForestCallback_" + Date.now();
 
-        const callbackName =
-            "bookForestCallback_" + Date.now();
+    window[callbackName] = function(data){
 
-        window[callbackName] = function(data){
+        responses = data.responses || [];
 
-            responses = data.responses;
+        document.getElementById("count").innerText =
+            `${data.count} / 508`;
 
-            document.getElementById("count").innerText =
-                `${data.count} / 508`;
+        delete window[callbackName];
 
-            delete window[callbackName];
+        const script =
+            document.getElementById(callbackName);
+
+        if(script){
             script.remove();
+        }
 
-            resolve(data);
+    };
 
-        };
+    const script =
+        document.createElement("script");
 
-        const script = document.createElement("script");
+    script.id = callbackName;
 
-        script.src =
-            GOOGLE_SCRIPT_URL +
-            "?callback=" + callbackName;
+    script.src =
+        GOOGLE_SCRIPT_URL +
+        "?callback=" + callbackName;
 
-        script.onerror = function(error){
-
-            delete window[callbackName];
-            script.remove();
-
-            console.log(
-                "응답을 불러오지 못했습니다.",
-                error
-            );
-
-            reject(error);
-
-        };
-
-        document.body.appendChild(script);
-
-    });
+    document.body.appendChild(script);
 
 }
 
-// 처음 한 번 불러오기
 loadResponses();
 
-// 30초마다 새 응답 확인
-setInterval(loadResponses,30000);
+setInterval(loadResponses, 30000);
 
 
 // ---------------------
