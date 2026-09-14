@@ -55,8 +55,8 @@ setInterval(loadResponses, 30000);
 const page1 = document.getElementById("page1");
 const page2 = document.getElementById("page2");
 
-const PAGE1_TIME = 15000;       // 1페이지 15초
-const LEAF_PAGE_TIME = 30000;   // 나뭇잎 페이지 30초
+const PAGE1_TIME = 10000;       // 1페이지 10초
+const LEAF_PAGE_TIME = 15000;   // 나뭇잎 페이지 15초
 const LEAF_PAGES_PER_CYCLE = 3; // 한 번에 3묶음
 
 let leafPagesShown = 0;
