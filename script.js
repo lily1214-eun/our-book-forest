@@ -55,28 +55,66 @@ setInterval(loadResponses, 30000);
 const page1 = document.getElementById("page1");
 const page2 = document.getElementById("page2");
 
+const PAGE1_TIME = 15000;       // 1페이지 15초
+const LEAF_PAGE_TIME = 30000;   // 나뭇잎 페이지 30초
+const LEAF_PAGES_PER_CYCLE = 3; // 한 번에 3묶음
+
+let leafPagesShown = 0;
+
+
 function showPage1(){
 
     page1.classList.add("active");
     page2.classList.remove("active");
 
-    setTimeout(showPage2,20000);
+    // 새로운 3묶음 사이클 시작
+    leafPagesShown = 0;
+
+    setTimeout(showPage2, PAGE1_TIME);
 
 }
+
 
 function showPage2(){
 
     page2.classList.add("active");
     page1.classList.remove("active");
 
+    // 현재 응답 묶음 표시
     createForest();
 
-    setTimeout(showPage1,90000);
+    leafPagesShown++;
+
+    const totalBatches =
+        Math.ceil(responses.length / 18);
+
+    const currentBatch =
+        createForest.currentBatch || 0;
+
+    const hasNextBatch =
+        currentBatch < totalBatches - 1;
+
+    // 아직 3묶음이 남아 있고,
+    // 다음 소감 묶음도 있다면 계속 보여주기
+    if(
+        leafPagesShown < LEAF_PAGES_PER_CYCLE &&
+        hasNextBatch
+    ){
+
+        setTimeout(showPage2, LEAF_PAGE_TIME);
+
+    }else{
+
+        // 3묶음이 끝났거나
+        // 더 이상 보여줄 소감이 없으면 1페이지로
+        setTimeout(showPage1, LEAF_PAGE_TIME);
+
+    }
 
 }
 
-showPage1();
 
+showPage1();
 
 // --------------------------
 // 나비
